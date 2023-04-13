@@ -18,6 +18,26 @@
       </div>
     </div>
 
+<% if @current_user.present? %>
+<% if Bookmark.where({ :movie_id => @the_movie.id }).where({ :user_id => @current_user.id }).first == nil %>
+<div>
+  <div>
+    <h2>
+      Add a new bookmark
+    </h2>
+
+    <form action="/insert_this_bookmark/<%= @the_movie.id %>" method="post">
+      <button>
+        Bookmark this movie
+      </button>
+      </form>
+<% else %>
+
+
+  
+      <a href="/delete_bookmark/<%= Bookmark.where({ :movie_id => @the_movie.id }).first.id %>">Un-bookmark</a>
+      <% end %>
+      <% end %>
     <dl>
       <dt>
         Title
@@ -137,7 +157,7 @@
       </div>
 
       <button>
-        Update movie
+        Update this movie
       </button>
     </form>
   </div>

@@ -23,6 +23,20 @@
   <a href="/actors">Actors</a>
   <br>
   <a href="/characters">Characters</a>
+ <br>
+ <% if session.fetch(:user_id) == nil %>
+  <a href="/user_sign_up">Sign Up</a>
+  <br>
+  <a href="/user_sign_in">Sign In</a>
+   <br>
+
+   <% else %>
+  <a href="/user_sign_out">Sign Out</a>
+  <br>
+   <a href="/bookmarks">My bookmarks</a>
+  <% end %>
+ <p><%= notice %></p>
+ <p><%= alert %></p>
 
     <%= yield %>
   </body>

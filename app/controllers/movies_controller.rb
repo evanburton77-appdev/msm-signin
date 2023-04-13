@@ -17,6 +17,19 @@ class MoviesController < ApplicationController
     render({ :template => "movies/show.html.erb" })
   end
 
+  def create_bookmark
+    the_bookmark = Bookmark.new
+    the_bookmark.user_id = session.fetch(:user_id)
+    the_bookmark.movie_id = params.fetch("movie_id")
+
+    if the_bookmark.valid?
+      the_bookmark.save
+      redirect_to("/bookmarks", { :notice => "Bookmark created successfully." })
+    else
+      redirect_to("/bookmarks", { :alert => the_bookmark.errors.full_messages.to_sentence })
+    end
+  end
+
   def create
     the_movie = Movie.new
     the_movie.title = params.fetch("query_title")
@@ -47,7 +60,7 @@ class MoviesController < ApplicationController
 
     if the_movie.valid?
       the_movie.save
-      redirect_to("/movies/#{the_movie.id}", { :notice => "Movie updated successfully."} )
+      redirect_to("/movies/#{the_movie.id}", { :notice => "Movie updated successfully." })
     else
       redirect_to("/movies/#{the_movie.id}", { :alert => the_movie.errors.full_messages.to_sentence })
     end
@@ -59,6 +72,6 @@ class MoviesController < ApplicationController
 
     the_movie.destroy
 
-    redirect_to("/movies", { :notice => "Movie deleted successfully."} )
+    redirect_to("/movies", { :notice => "Movie deleted successfully." })
   end
 end
